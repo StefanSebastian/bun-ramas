@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 '''
 Offer model
@@ -18,6 +19,13 @@ class Offer(models.Model):
 	description = models.TextField();
 
 	'''
+	Starting Date - DateTimeField
+	The offer's starting date
+	Defaults to current datetime
+	'''
+	starting_date = models.DateTimeField(default = datetime.now);
+
+	'''
 	Expration Date - DateTimeField
 	The offer's expiration date
 	'''
@@ -33,3 +41,10 @@ class Offer(models.Model):
 	Will contain reference to provider
 	'''
 	provider = models.CharField(max_length = 250);
+
+	'''
+	String representation of the object
+	Returns the title
+	'''
+	def __str__(self):
+		return self.title;
