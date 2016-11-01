@@ -1,0 +1,15 @@
+<h1>Offers</h1>
+<ul>
+{% for offer in object_list %}
+    <li><strong>{{offer.title}}</strong>
+        <ul>
+            <li> Availability: {{ offer.starting_date|date }} - {{ offer.expiration_date|date }}</li>
+            <li> Description: {{ offer.description }} </li>
+            <li> Location: {{ offer.location }} </li>
+            <li> Provider: {{ offer.provider }} </li>
+        </ul>
+    </li>
+{% empty %}
+    <li>No offers to be displayed.</li>
+{% endfor %}
+</ul>

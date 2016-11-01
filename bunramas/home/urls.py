@@ -1,7 +1,8 @@
 from django.conf.urls import url
 
-from . import views
+# from . import views
+from home.views import OfferListView
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', OfferListView.as_view(), name='offer-list'),
 ]

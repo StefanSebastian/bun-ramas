@@ -1,8 +1,21 @@
 from django.shortcuts import render
 
-# Create your views here.
+from django.views.generic.list import ListView
+from django.utils import timezone
 
-from django.http import HttpResponse
+from provider.models import Offer
 
-def index(request):
-    return HttpResponse("Welcome to the Bun Ramas web app.")
+'''
+Generic ListView of Offer.
+'''
+class OfferListView(ListView):
+    '''
+    template_name tells the ListView to use consumer/offer_list.html template.
+    '''
+    template_name = "consumer/offer_list.html"
+    model = Offer
+
+    def get_context_data(self, **kwargs):
+        context = super(OfferListView, self).get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
