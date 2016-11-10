@@ -1,5 +1,6 @@
 from django.db import models
-from datetime import datetime
+# from datetime import datetime
+from django.utils import timezone
 
 '''
 Offer model
@@ -23,7 +24,7 @@ class Offer(models.Model):
 	The offer's starting date
 	Defaults to current datetime
 	'''
-	starting_date = models.DateTimeField(default = datetime.now);
+	starting_date = models.DateTimeField(default = timezone.now);
 
 	'''
 	Expration Date - DateTimeField
