@@ -1,6 +1,6 @@
 from django.db import models
-# from datetime import datetime
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 '''
 Offer model
@@ -49,3 +49,10 @@ class Offer(models.Model):
 	'''
 	def __str__(self):
 		return self.title;
+
+	'''
+	Validates an object
+	'''
+	def clean(self):
+		if (self.expiration_date is not None) and (self.starting_date >= self.expiration_date):
+			raise ValidationError({'expiration_date':'Expiration date must be after starting date!'})
