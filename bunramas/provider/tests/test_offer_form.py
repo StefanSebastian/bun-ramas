@@ -48,6 +48,12 @@ class OfferFormTest(TestCase):
         self.assertFormError(response, 'form', 'expiration_date', 'Enter a valid date/time.')
         self.assertFormError(response, 'form', 'starting_date', 'Enter a valid date/time.')
 
+    def test_redirect_success_form(self):
+        form_data = {'title':'title', 'description':'description', 'location':'location',
+        'starting_date':'2016-11-11 17:00:00', 'expiration_date':'2016-11-11 19:22:22'}
+        response = self.client.post('/provider/add_offer/', form_data)
+        self.assertRedirects(response, expected_url = '/provider/add_offer/success_add/')
+
     '''
     Tests the validity of dates inserted
     '''
