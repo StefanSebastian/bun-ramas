@@ -1,5 +1,28 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
+
+'''
+Provider user model
+Describes a provider user profile
+'''
+class Provider(models.Model):
+	'''
+	Reference
+	'''
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+	'''
+	Company name
+	'''
+	company_name = models.CharField(max_length = 250);
+
+	'''
+	String representation of the object
+	Returns the company name 
+	'''
+	def __str__(self):
+		return self.company_name;
 
 '''
 Offer model
@@ -40,7 +63,7 @@ class Offer(models.Model):
 	'''
 	Will contain reference to provider
 	'''
-	provider = models.CharField(max_length = 250);
+	provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
 
 	'''
 	String representation of the object
