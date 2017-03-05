@@ -19,7 +19,7 @@ class Provider(models.Model):
 
 	'''
 	String representation of the object
-	Returns the company name 
+	Returns the company name
 	'''
 	def __str__(self):
 		return self.company_name;
@@ -29,6 +29,19 @@ Offer model
 Describes an offer made by a provider
 '''
 class Offer(models.Model):
+	'''
+	Meta class
+	'''
+	class Meta:
+		'''
+		List of permissions for Offer objects
+		'''
+		permissions = (
+			("can_create_offer", "Can create an offer"),
+			("can_edit_offer", "Can edit an offer"),
+			("can_delete_offer", "Can delete an offer"),
+		)
+		
 	'''
 	Title - CharField
 	The title of the offer, visible in offer list
