@@ -41,7 +41,7 @@ class Offer(models.Model):
 			("can_edit_offer", "Can edit an offer"),
 			("can_delete_offer", "Can delete an offer"),
 		)
-		
+
 	'''
 	Title - CharField
 	The title of the offer, visible in offer list
