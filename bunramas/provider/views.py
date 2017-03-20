@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.contrib.auth.models import Group, User
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
 
 from .models import Provider
-from .forms import ProviderUserForm
+from .forms import ProviderUserForm, ProviderLoginForm
 
 '''
 View for creating a provider user
@@ -36,6 +39,40 @@ class ProviderUserFormView(FormView):
             #create a new profile
             Provider.objects.create(user = new_user)
             new_user.provider.save()
-            #will redirect to profile update page - so company name is not left blank 
+
+            #redirect to login
+            return redirect('provider:login')
+        #if form is invalid
+        return render(request, self.template_name, {'form':form})
+
+'''
+View for logging in as a provider
+'''
+class ProviderLoginFormView(FormView):
+    form_class = ProviderLoginForm
+    template_name = "provider/login_form.html"
+
+    '''
+    Display a blank form
+    '''
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form' : form})
+
+    '''
+    Process form data
+    '''
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            
+            return redirect('provider:register') # just for testing
+            #redirect to profile - to do
         #if form is invalid
         return render(request, self.template_name, {'form':form})
