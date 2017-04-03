@@ -94,3 +94,15 @@ class OfferViewsTest(TestCase):
         self.assertIn('Current offer 2'.encode('utf-8'), resp.content)
         self.assertNotIn('Past offer'.encode('utf-8'), resp.content)
         self.assertNotIn('Future offer'.encode('utf-8'), resp.content)
+
+    def test_offer_detail_view(self):
+        curr_object_1 = Offer.objects.get(title='Current offer 1')
+        url = reverse('offer-detail', args=(curr_object_1.pk,
+                                            curr_object_1.slug,)
+                    )
+        resp = self.client.get(url)
+        self.assertIn('Current offer 1'.encode('utf-8'), resp.content)
+        self.assertNotIn('Current offer 2'.encode('utf-8'), resp.content)
+        self.assertNotIn('Past offer'.encode('utf-8'), resp.content)
+        self.assertNotIn('Future offer'.encode('utf-8'), resp.content)
+        self.assertEqual(resp.status_code, 200)
