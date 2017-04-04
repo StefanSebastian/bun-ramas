@@ -101,8 +101,9 @@ class OfferViewsTest(TestCase):
                                             curr_object_1.slug,)
                     )
         resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        
         self.assertIn('Current offer 1'.encode('utf-8'), resp.content)
         self.assertNotIn('Current offer 2'.encode('utf-8'), resp.content)
         self.assertNotIn('Past offer'.encode('utf-8'), resp.content)
         self.assertNotIn('Future offer'.encode('utf-8'), resp.content)
-        self.assertEqual(resp.status_code, 200)
