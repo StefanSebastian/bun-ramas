@@ -1,0 +1,12 @@
+<h1>Offer</h1>
+<ul>
+<li>
+    <strong>{{offer.title}}</strong>
+    <ul>
+        <li> Availability: {{ offer.starting_date|date }} - {{ offer.expiration_date|date }}</li>
+        <li> Description: {{ offer.description }} </li>
+        <li> Location: {{ offer.location }} </li>
+        <li> Provider: {{ offer.provider }} </li>
+    </ul>
+</li>
+</ul>

@@ -1,13 +1,16 @@
 <h1>Offers</h1>
 <ul>
 {% for offer in object_list %}
-    <li><strong>{{offer.title}}</strong>
+    <li>
+        <a href="{% url 'offer-detail' offer.pk offer.slug %}">
+        <strong>{{offer.title}}</strong>
         <ul>
             <li> Availability: {{ offer.starting_date|date }} - {{ offer.expiration_date|date }}</li>
             <li> Description: {{ offer.description }} </li>
             <li> Location: {{ offer.location }} </li>
             <li> Provider: {{ offer.provider }} </li>
         </ul>
+        </a>
     </li>
 {% empty %}
     <li>No offers to be displayed.</li>

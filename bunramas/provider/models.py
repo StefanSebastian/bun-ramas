@@ -1,5 +1,7 @@
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.template.defaultfilters import slugify
 
 '''
 Offer model
@@ -23,7 +25,7 @@ class Offer(models.Model):
 	The offer's starting date
 	Defaults to current datetime
 	'''
-	starting_date = models.DateTimeField(default = datetime.now);
+	starting_date = models.DateTimeField(default = timezone.now);
 
 	'''
 	Expration Date - DateTimeField
@@ -43,8 +45,30 @@ class Offer(models.Model):
 	provider = models.CharField(max_length = 250);
 
 	'''
+	Slug for URL reversing.
+	'''
+	slug = models.SlugField(max_length = 250, default = "");
+
+	'''
 	String representation of the object
 	Returns the title
 	'''
 	def __str__(self):
 		return self.title;
+
+	'''
+	Validates an object
+	'''
+	def clean(self):
+		if (self.expiration_date is not None) and (self.starting_date >= self.expiration_date):
+			raise ValidationError({'expiration_date':'Expiration date must be after starting date!'})
+
+	'''
+	Returns the slugified corresponding title of the Offer.
+	'''
+	# def slug(self):
+	# 	return slugify(self.title)
+
+	def __init__(self, *args, **kwargs):
+		super(Offer, self).__init__(*args, **kwargs)
+		self.slug = slugify(self.title)
