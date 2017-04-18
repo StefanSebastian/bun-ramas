@@ -2,19 +2,21 @@ from django.contrib.auth.models import User
 from django import forms
 from provider.models import Provider
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 '''
 Form for creating a user
 '''
-class ProviderUserForm(forms.ModelForm):
+class ProviderUserForm(UserCreationForm):
     '''
-    Password field
+    Email field
     '''
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.CharField(required = True)
 
-    class Meta:
-        model = User
-        fields = ['username', 'password', 'email']
+    '''
+    Company name field
+    '''
+    company_name = forms.CharField(required = True)
 
 '''
 Form for logging in a provider user
@@ -31,7 +33,7 @@ class ProviderLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
     '''
-    Validates credentials - overrides the forms.Form clean method 
+    Validates credentials - overrides the forms.Form clean method
     throws ValidationError
     '''
     def clean(self):

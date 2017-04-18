@@ -31,13 +31,17 @@ class ProviderUserFormView(FormView):
 
         if form.is_valid():
             #create a new user
-            new_user = User.objects.create_user(**form.cleaned_data)
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            email = form.cleaned_data['email']
+            new_user = User.objects.create_user(username=username, password=password, email=email)
             group = Group.objects.get(name='provider')
             new_user.groups.add(group)
             new_user.save()
 
             #create a new profile
-            Provider.objects.create(user = new_user)
+            company_name = form.cleaned_data['company_name']
+            Provider.objects.create(user = new_user, company_name=company_name)
             new_user.provider.save()
 
             #redirect to login
@@ -71,8 +75,8 @@ class ProviderLoginFormView(FormView):
 
             user = authenticate(username=username, password=password)
             login(request, user)
-            
-            return redirect('provider:register') # just for testing
+
+            #return redirect('provider:register') # just for testing
             #redirect to profile - to do
         #if form is invalid
         return render(request, self.template_name, {'form':form})
